@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  postgres_transactions:
+    image: postgres:latest
+    container_name: postgres_transactions
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Rea123Teo
+      POSTGRES_DB: transactions
+    networks:
+      - mynetwork
+
+  postgres_warehouse:
+    image: postgres:latest
+    container_name: postgres_warehouse
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Rea123Teo
+      POSTGRES_DB: warehouse
+    networks:
+      - mynetwork
+
+  python_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: python_app
+    networks:
+      - mynetwork
+
+  spark:
+    image: bitnami/spark:latest
+    build:
+      context: .
+      dockerfile: Dockerfile_pyspark
+    ports:
+      - "4040:4040"
+    volumes:
+      - ./postgresql-42.7.1.jar:/app/postgresql-42.7.1.jar
+      - ./:/app/
+    networks:
+      - mynetwork
+    container_name: spark
+
+networks:
+  mynetwork:
+    driver: bridge

@@ -1,0 +1,6 @@
+docker exec spark spark-submit --master local[*] --driver-class-path /app/postgresql-42.7.1.jar /app/warehouse.py
+ docker exec -it postgres_warehouse psql -U postgres -d warehouse
+  docker exec -it postgres_transactions psql -U postgres -d transactions
+  docker system prune -a
+   docker-compose up --build
+    docker-compose down
