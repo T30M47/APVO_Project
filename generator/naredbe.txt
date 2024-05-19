@@ -5,3 +5,9 @@ docker exec spark spark-submit --master local[*] --driver-class-path /app/postgr
    docker-compose up --build
     docker-compose down
     docker exec dash_web_app python Dash/app.py
+
+da se ne mora sve ponovno pokretat:
+docker-compose stop dash_web_app
+docker-compose rm -f dash_web_app
+docker-compose up -d --build dash_web_app
+docker exec dash_web_app python Dash/app.py
