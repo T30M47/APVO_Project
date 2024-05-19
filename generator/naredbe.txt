@@ -4,3 +4,4 @@ docker exec spark spark-submit --master local[*] --driver-class-path /app/postgr
   docker system prune -a
    docker-compose up --build
     docker-compose down
+    docker exec dash_web_app python Dash/app.py

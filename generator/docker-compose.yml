@@ -47,6 +47,21 @@ services:
       - mynetwork
     container_name: spark
 
+  dash_web_app:
+      build:
+        context: .
+        dockerfile: Dockerfile_dash
+      working_dir: /app
+      depends_on:
+        - postgres_warehouse
+      networks:
+        - mynetwork
+      ports:
+        - "8050:8050"
+      container_name: dash_web_app
+      command: ["tail", "-f", "/dev/null"]
+
+
 networks:
   mynetwork:
     driver: bridge
