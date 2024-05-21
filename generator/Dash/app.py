@@ -5,6 +5,9 @@ import dash_bootstrap_components as dbc
 import psycopg2
 import pandas as pd
 from prophet import Prophet
+import os
+from datetime import datetime
+
 # Create a Dash web app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Analitika transakcija"
@@ -18,8 +21,7 @@ db_params = {
     'password': 'Rea123Teo',
 }
 
-# file_path = "../generator/csv/retail_all.csv"
-# transaction_data = pd.read_csv(file_path)
+
 
 # Navigation layout
 navbar = dbc.NavbarSimple(
@@ -102,7 +104,24 @@ analytics_layout = html.Div(children=[
 ])
 
 forecast_layout = html.Div(children=[
-    html.H1(children='Forecast (Coming Soon)')
+    html.H1(children='Forecast'),
+    
+    html.Div([
+        dcc.Dropdown(
+            id='forecast-period-dropdown',
+            options=[
+                {'label': '30 dana', 'value': '30'},
+                {'label': '6 mjeseci', 'value': '183'},
+                {'label': 'Godina', 'value': '365'}
+            ],
+            value='30',  # Default value
+            clearable=False,
+            multi=False,
+            style={'width': '50%'}
+        )
+    ]),
+
+    html.Div(id='forecast-graph-container')
 ])
 
 @app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
@@ -183,7 +202,7 @@ def update_product_sales_distribution(selected_year):
     
     return {
         'data': [
-            {'x': df['product_name'], 'y': df['total_quantity'], 'type': 'bar', 'name': 'Product Sales', 'marker': {'color': ['lightblue']}}
+            {'x': df['product_name'], 'y': df['total_quantity'], 'type': 'bar', 'name': 'Product Sales', 'marker': {'color': ['black']}}
         ],
         'layout': {
             'title': f'10 najprodavanijih proizvoda u {selected_year}. godini.',
@@ -233,6 +252,44 @@ def update_monthly_transactions(selected_year):
             'yaxis': {'title': 'Ukupni iznos'}
         }
     }
+@app.callback(
+    Output('forecast-graph-container', 'children'),
+    [Input('forecast-period-dropdown', 'value')]
+)
+def display_forecast_graph(forecast_period):
+    forecast_file = f'/app/Dash/forecast_transactions_{forecast_period}_days.csv'
+    if not os.path.isfile(forecast_file):
+        return html.Div("No available forecasts.")
+    
+    # Load forecast data from CSV file
+    forecast_data = pd.read_csv(forecast_file)
+    forecast_data['ds'] = pd.to_datetime(forecast_data['ds'])
+    
+    # Define the number of days for the last part of the forecast
+    num_days = int(forecast_period)
+
+    # Separate the last part of the forecast data
+    last_days = forecast_data.tail(num_days)
+    forecast_without_last_days = forecast_data.iloc[:-num_days]
+
+    # Create a Plotly figure
+    fig = {
+        'data': [
+            {'x': forecast_without_last_days['ds'], 'y': forecast_without_last_days['yhat'], 'type': 'line', 'name': 'Forecast', 'line': {'color': 'blue'}},
+            {'x': last_days['ds'], 'y': last_days['yhat'], 'type': 'line', 'name': f'Predviđanje za idućih {num_days}', 'line': {'color': 'orange'}}
+        ],
+        'layout': {
+            'title': f'Predviđanje za idućih {num_days} dana',
+            'xaxis': {'title': 'Datum'},
+            'yaxis': {'title': 'Iznos transakcija'},
+            'showlegend': True
+        }
+    }
+
+    return dcc.Graph(
+        id='forecast-graph',
+        figure=fig
+    )
 
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0', port=8050)

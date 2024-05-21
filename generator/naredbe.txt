@@ -4,7 +4,15 @@ docker exec spark spark-submit --master local[*] --driver-class-path /app/postgr
   docker system prune -a
    docker-compose up --build
     docker-compose down
+
+    REDOSLIJED NAKON PODIZANJA SVIH KONTEJNERA:
+    docker exec spark spark-submit --master local[*] --driver-class-path /app/postgresql-42.7.1.jar /app/warehouse.py
     docker exec dash_web_app python Dash/app.py
+   
+    ZA NAPRAVIT PREDIKCIJE:
+    docker exec dash_web_app python Dash/app.py
+    i onda kopiraj iz kontejnera lokalno i stavi u Dash mapu i onda u app.py citaj iz tog csva
+    docker cp dash_web_app:/app/forecast_transactions_30_days.csv D://
 
 da se ne mora sve ponovno pokretat:
 docker-compose stop dash_web_app
