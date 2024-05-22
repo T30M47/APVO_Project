@@ -52,7 +52,7 @@ distinct_years.sort()
 conn.close()
 
 analytics_layout = html.Div(children=[
-    html.H1(children='Warehouse Analytics'),
+    html.H1(children='Analitika transakcija'),
 
     html.Div([
         dcc.Dropdown(
@@ -104,7 +104,7 @@ analytics_layout = html.Div(children=[
 ])
 
 forecast_layout = html.Div(children=[
-    html.H1(children='Forecast'),
+    html.H1(children='Predviđanja'),
     
     html.Div([
         dcc.Dropdown(
@@ -121,7 +121,20 @@ forecast_layout = html.Div(children=[
         )
     ]),
 
-    html.Div(id='forecast-graph-container')
+    html.Div(id='forecast-graph-container'),
+
+    html.Div([
+        dcc.Dropdown(
+            id='product-dropdown',
+            options=[],  # Options will be populated dynamically
+            value=None,  # Default value will be None initially
+            clearable=False,
+            multi=False,
+            style={'width': '50%'}
+        )
+    ]),
+
+    html.Div(id='product-forecast-graph-container')
 ])
 
 @app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
@@ -252,6 +265,32 @@ def update_monthly_transactions(selected_year):
             'yaxis': {'title': 'Ukupni iznos'}
         }
     }
+
+
+@app.callback(
+    Output('product-dropdown', 'options'),
+    Input('forecast-period-dropdown', 'value')
+)
+def set_product_dropdown_options(_):
+    conn = psycopg2.connect(**db_params)
+    top_products_query = """
+    SELECT product_name
+    FROM (
+        SELECT p.product_name, SUM(t.quantity) AS total_quantity
+        FROM transactions t
+        JOIN products p ON t.id_product = p.id_product
+        JOIN time tm ON t.id_time = tm.id_time
+        GROUP BY p.product_name
+        ORDER BY total_quantity DESC
+        LIMIT 5
+    ) AS top_products;
+    """
+    top_products_df = pd.read_sql_query(top_products_query, conn)
+    conn.close()
+
+    return [{'label': product, 'value': product} for product in top_products_df['product_name']]
+
+
 @app.callback(
     Output('forecast-graph-container', 'children'),
     [Input('forecast-period-dropdown', 'value')]
@@ -288,6 +327,49 @@ def display_forecast_graph(forecast_period):
 
     return dcc.Graph(
         id='forecast-graph',
+        figure=fig
+    )
+
+@app.callback(
+    Output('product-forecast-graph-container', 'children'),
+    [Input('forecast-period-dropdown', 'value'),
+     Input('product-dropdown', 'value')]
+)
+def display_product_forecast_graph(forecast_period, selected_product):
+    if not selected_product:
+        return html.Div("Please select a product.")
+
+    forecast_file = f'/app/Dash/forecast_{selected_product.replace(" ", "_").lower()}.csv'
+    if not os.path.isfile(forecast_file):
+        return html.Div(f"No available forecasts for {selected_product}.")
+
+    # Load forecast data from CSV file
+    forecast_data = pd.read_csv(forecast_file)
+    forecast_data['ds'] = pd.to_datetime(forecast_data['ds'])
+
+    # Define the number of days for the last part of the forecast
+    num_days = int(forecast_period)
+
+    # Separate the last part of the forecast data
+    last_days = forecast_data.tail(num_days)
+    forecast_without_last_days = forecast_data.iloc[:-num_days]
+
+    # Create a Plotly figure
+    fig = {
+        'data': [
+            {'x': forecast_without_last_days['ds'], 'y': forecast_without_last_days['yhat'], 'type': 'line', 'name': 'Forecast', 'line': {'color': 'blue'}},
+            {'x': last_days['ds'], 'y': last_days['yhat'], 'type': 'line', 'name': f'Predviđanje za idućih {num_days}', 'line': {'color': 'orange'}}
+        ],
+        'layout': {
+            'title': f'Predviđanje za idućih {num_days} dana za {selected_product}',
+            'xaxis': {'title': 'Datum'},
+            'yaxis': {'title': 'Prodana količina'},
+            'showlegend': True
+        }
+    }
+
+    return dcc.Graph(
+        id='product-forecast-graph',
         figure=fig
     )
 

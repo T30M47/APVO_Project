@@ -27,26 +27,33 @@ ORDER BY date;
 
 # Query to fetch product sales data
 product_sales_query = """
-SELECT tm.year || '-' || tm.month || '-' || tm.day AS date, p.product_name, t.quantity
+SELECT tm.year || '-' || tm.month || '-' || tm.day AS date, p.product_name, SUM(t.quantity) AS total_quantity
 FROM transactions t
 JOIN products p ON t.id_product = p.id_product
 JOIN time tm ON t.id_time = tm.id_time
-ORDER BY date;
+GROUP BY date, p.product_name
+ORDER BY date, total_quantity DESC;
 """
 
-# Query to fetch daily transaction counts
-daily_transactions_query = """
-SELECT tm.year || '-' || tm.month || '-' || tm.day AS date, COUNT(*) AS transaction_count
-FROM transactions t
-JOIN time tm ON t.id_time = tm.id_time
-GROUP BY date
-ORDER BY date;
-"""
 
 # Execute the queries and fetch data into pandas dataframes
 transactions_df = pd.read_sql_query(transactions_query, conn)
 # product_sales_df = pd.read_sql_query(product_sales_query, conn)
 transactions_df.rename(columns={'date': 'ds', 'amount': 'y'}, inplace=True)
+# Fetch the top 5 most sold products
+product_sales_df = pd.read_sql_query(product_sales_query, conn)
+top_5_products = product_sales_df.groupby('product_name').sum().nlargest(5, 'total_quantity').index.tolist()
+
+# Create a dictionary to hold dataframes for top 5 products
+top_product_dataframes = {}
+
+# Create dataframe for each top product
+for product in top_5_products:
+    product_df = product_sales_df[product_sales_df['product_name'] == product].copy()
+    product_df.rename(columns={'date': 'ds', 'total_quantity': 'y'}, inplace=True)
+    top_product_dataframes[product] = product_df[['ds', 'y']]
+
+conn.close()
 
 # daily_transactions_df = pd.read_sql_query(daily_transactions_query, conn)
 # daily_transactions_df.rename(columns={'date': 'ds', 'transaction_count': 'y'}, inplace=True)
@@ -67,17 +74,28 @@ def make_prophet_forecast(df, days):
     forecast = m.predict(future)
     return forecast
 
-# Izračunajte predviđanja za 7 i 30 dana
-forecast_transactions_30_days = make_prophet_forecast(transactions_df, 30)
-forecast_transactions_183_days = make_prophet_forecast(transactions_df, 183)
-forecast_transactions_365_days = make_prophet_forecast(transactions_df, 365)
-# forecast_daily_transactions_7_days = make_prophet_forecast(daily_transactions_df, 7)
-# forecast_daily_transactions_30_days = make_prophet_forecast(daily_transactions_df, 30)
+# Make forecasts for top 5 products
+forecast_top_product_dataframes = {}
+for product, df in top_product_dataframes.items():
+    forecast_top_product_dataframes[product] = make_prophet_forecast(df, 30)
 
-# Pohranite predviđanja u CSV datoteke
-forecast_transactions_30_days.to_csv('forecast_transactions_30_days.csv', index=False)
-forecast_transactions_183_days.to_csv('forecast_transactions_183_days.csv', index=False)
-forecast_transactions_365_days.to_csv('forecast_transactions_365_days.csv', index=False)
+# Save forecasts to CSV files
+for product, forecast_df in forecast_top_product_dataframes.items():
+    filename = f'forecast_{product.replace(" ", "_").lower()}.csv'
+    forecast_df.to_csv(filename, index=False)
+
+
+# Izračunajte predviđanja za 7 i 30 dana
+# forecast_transactions_30_days = make_prophet_forecast(transactions_df, 30)
+# forecast_transactions_183_days = make_prophet_forecast(transactions_df, 183)
+# forecast_transactions_365_days = make_prophet_forecast(transactions_df, 365)
+# # forecast_daily_transactions_7_days = make_prophet_forecast(daily_transactions_df, 7)
+# # forecast_daily_transactions_30_days = make_prophet_forecast(daily_transactions_df, 30)
+
+# # Pohranite predviđanja u CSV datoteke
+# forecast_transactions_30_days.to_csv('forecast_transactions_30_days.csv', index=False)
+# forecast_transactions_183_days.to_csv('forecast_transactions_183_days.csv', index=False)
+# forecast_transactions_365_days.to_csv('forecast_transactions_365_days.csv', index=False)
 
 # forecast_daily_transactions_7_days.to_csv('forecast_product_sales_7_days.csv', index=False)
 # forecast_daily_transactions_30_days.to_csv('forecast_product_sales_30_days.csv', index=False)
