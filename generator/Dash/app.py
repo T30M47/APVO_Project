@@ -105,7 +105,7 @@ analytics_layout = html.Div(children=[
 
 forecast_layout = html.Div(children=[
     html.H1(children='Predviđanja'),
-    
+
     html.Div([
         dcc.Dropdown(
             id='forecast-period-dropdown',
@@ -215,7 +215,7 @@ def update_product_sales_distribution(selected_year):
     
     return {
         'data': [
-            {'x': df['product_name'], 'y': df['total_quantity'], 'type': 'bar', 'name': 'Product Sales', 'marker': {'color': ['black']}}
+            {'x': df['product_name'], 'y': df['total_quantity'], 'type': 'bar', 'name': 'Product Sales', 'marker': {'color': ['lightblue']}}
         ],
         'layout': {
             'title': f'10 najprodavanijih proizvoda u {selected_year}. godini.',
@@ -298,7 +298,7 @@ def set_product_dropdown_options(_):
 def display_forecast_graph(forecast_period):
     forecast_file = f'/app/Dash/forecast_transactions_{forecast_period}_days.csv'
     if not os.path.isfile(forecast_file):
-        return html.Div("No available forecasts.")
+        return html.Div("Nema dostupnih predviđanja.")
     
     # Load forecast data from CSV file
     forecast_data = pd.read_csv(forecast_file)
@@ -337,11 +337,12 @@ def display_forecast_graph(forecast_period):
 )
 def display_product_forecast_graph(forecast_period, selected_product):
     if not selected_product:
-        return html.Div("Please select a product.")
+        return html.Div("  Molimo odaberite proizvod.")
 
-    forecast_file = f'/app/Dash/forecast_{selected_product.replace(" ", "_").lower()}.csv'
+    forecast_file = f'/app/Dash/forecast_{selected_product.replace(" ", "_").lower()}_{forecast_period}_days.csv'
     if not os.path.isfile(forecast_file):
-        return html.Div(f"No available forecasts for {selected_product}.")
+        return html.Div(f"Nema dostupnih predviđanja za  {selected_product} za sljedećih {forecast_period} dana.")
+
 
     # Load forecast data from CSV file
     forecast_data = pd.read_csv(forecast_file)

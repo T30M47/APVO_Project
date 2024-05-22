@@ -74,17 +74,15 @@ def make_prophet_forecast(df, days):
     forecast = m.predict(future)
     return forecast
 
-# Make forecasts for top 5 products
-forecast_top_product_dataframes = {}
+# Forecast periods
+forecast_periods = [30, 183, 365]
+
+# Make forecasts for top 5 products and save to CSV files
 for product, df in top_product_dataframes.items():
-    forecast_top_product_dataframes[product] = make_prophet_forecast(df, 30)
-
-# Save forecasts to CSV files
-for product, forecast_df in forecast_top_product_dataframes.items():
-    filename = f'forecast_{product.replace(" ", "_").lower()}.csv'
-    forecast_df.to_csv(filename, index=False)
-
-
+    for period in forecast_periods:
+        forecast_df = make_prophet_forecast(df, period)
+        filename = f'forecast_{product.replace(" ", "_").lower()}_{period}_days.csv'
+        forecast_df.to_csv(filename, index=False)
 # Izračunajte predviđanja za 7 i 30 dana
 # forecast_transactions_30_days = make_prophet_forecast(transactions_df, 30)
 # forecast_transactions_183_days = make_prophet_forecast(transactions_df, 183)
