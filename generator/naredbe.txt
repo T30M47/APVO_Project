@@ -10,7 +10,7 @@ docker exec spark spark-submit --master local[*] --driver-class-path /app/postgr
     docker exec dash_web_app python Dash/app.py
    
     ZA NAPRAVIT PREDIKCIJE:
-    docker exec dash_web_app python Dash/app.py
+    docker exec dash_web_app python Dash/forecast.py
     i onda kopiraj iz kontejnera lokalno i stavi u Dash mapu i onda u app.py citaj iz tog csva
     docker cp dash_web_app:/app/forecast_transactions_30_days.csv D://
 
