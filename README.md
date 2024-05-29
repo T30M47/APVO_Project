@@ -23,12 +23,13 @@ docker exec spark spark-submit --master local[*] --driver-class-path /app/postgr
 ```
 Zadnji korak je pokrenuti web aplikaciju s naredbom:
 ```
+docker exec dash_web_app python Dash/app.py
+```
 Nakon toga aplikacija postaje dostupna na:
 ```
 localhost:8050
 ```
-docker exec dash_web_app python Dash/app.py
-```
+
 <h1>Upute za korištenje</h1>
 <hr>
 
