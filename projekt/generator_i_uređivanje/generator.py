@@ -25,7 +25,7 @@ def generate_transaction_wrapper(args):
 
 if __name__ == '__main__':
     # Step 1: Read the CSV file and drop rows with no description
-    df = pd.read_csv('csv/retail_cleaned.csv')
+    df = pd.read_csv('projekt/csv/retail_cleaned.csv')
     df.dropna(subset=['Description'], inplace=True)
 
     # Step 2: Identify the top products sold in the original dataset
@@ -83,4 +83,4 @@ if __name__ == '__main__':
     new_df.sort_values(by='InvoiceDate', inplace=True)
 
     # Step 8: Write the generated transactions to a new CSV file
-    new_df.to_csv('csv/cetvrta_godina_55.csv', index=False)
+    new_df.to_csv('projekt/csv/cetvrta_godina_55.csv', index=False)
