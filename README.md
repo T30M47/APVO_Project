@@ -23,6 +23,10 @@ docker exec spark spark-submit --master local[*] --driver-class-path /app/postgr
 ```
 Zadnji korak je pokrenuti web aplikaciju s naredbom:
 ```
+Nakon toga aplikacija postaje dostupna na:
+```
+localhost:8050
+```
 docker exec dash_web_app python Dash/app.py
 ```
 <h1>Upute za korištenje</h1>
@@ -30,3 +34,4 @@ docker exec dash_web_app python Dash/app.py
 
 - Na stranici Analitika moguće je izabrati godinu iz padajućeg izbornika te pregledati analitičke podatke o prodaji i transakcijama.
 - Na stranici Predviđanja moguće je, iz padajućeg izbornika na vrhu, birati vremenski raspon predviđanja (30, 183 ili 365 dana). Također, iz drugog padajućeg izbornika moguće je odabrati jedan od top 5 najprodavanijih proizvoda te će se prikazati predviđanje njegove preodaje za odabrani vremenski raspon iz prvog padajućeg izbornika.
+
