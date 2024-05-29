@@ -14,4 +14,4 @@ COPY . .
 
 
 #CMD ["python", "create_db.py"]
-CMD ["wait-for-it", "postgres_transactions:5432", "--timeout=10", "--", "python", "create_db.py"]
+CMD ["wait-for-it", "postgres_transactions:5432", "--timeout=10", "--", "python", "baze_podataka/create_db.py"]
