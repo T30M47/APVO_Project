@@ -13,7 +13,7 @@ Zatim se pozicionirajte u mapu gdje se nalazi Dockerfile ("projekt"):
 cd ./projekt
 ```
 
-Zatim u terminalu pokrenite naredbu i pričekajte da se podignu kontejneri (traje nešto duže zbog popunjavanja baza podataka):
+Zatim u terminalu pokrenite naredbu i pričekajte da se podignu kontejneri (traje nešto duže zbog popunjavanja baza podataka i treba se čekati da kontejner python_app vrati "Created Transactions!" pa "DONE"):
 ```
 docker-compose up --build
 ```
