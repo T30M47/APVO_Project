@@ -31,7 +31,7 @@ navbar = dbc.NavbarSimple(
     ],
     brand="Nadzorna ploča analitike transakcija i predviđanja",
     brand_href="/",
-    color="primary",
+    color="steelblue",
     dark=True,
 )
 
@@ -39,7 +39,7 @@ navbar = dbc.NavbarSimple(
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     navbar,
-    html.Div(id='page-content')
+    html.Div(id='page-content', style={'padding': '20px'})
 ])
 
 conn = psycopg2.connect(**db_params)
@@ -215,7 +215,7 @@ def update_product_sales_distribution(selected_year):
     
     return {
         'data': [
-            {'x': df['product_name'], 'y': df['total_quantity'], 'type': 'bar', 'name': 'Product Sales', 'marker': {'color': ['lightblue']}}
+            {'x': df['product_name'], 'y': df['total_quantity'], 'type': 'bar', 'name': 'Product Sales',  'marker': {'color': 'steelblue'}}
         ],
         'layout': {
             'title': f'10 najprodavanijih proizvoda u {selected_year}. godini.',
@@ -314,11 +314,11 @@ def display_forecast_graph(forecast_period):
     # Create a Plotly figure
     fig = {
         'data': [
-            {'x': forecast_without_last_days['ds'], 'y': forecast_without_last_days['yhat'], 'type': 'line', 'name': 'Forecast', 'line': {'color': 'blue'}},
+            {'x': forecast_without_last_days['ds'], 'y': forecast_without_last_days['yhat'], 'type': 'line', 'name': 'Povijesni podaci', 'line': {'color': 'steelblue'}},
             {'x': last_days['ds'], 'y': last_days['yhat'], 'type': 'line', 'name': f'Predviđanje za idućih {num_days}', 'line': {'color': 'orange'}}
         ],
         'layout': {
-            'title': f'Predviđanje za idućih {num_days} dana',
+            'title': f'Predviđanje zarade za idućih {num_days} dana',
             'xaxis': {'title': 'Datum'},
             'yaxis': {'title': 'Iznos transakcija'},
             'showlegend': True
@@ -358,11 +358,11 @@ def display_product_forecast_graph(forecast_period, selected_product):
     # Create a Plotly figure
     fig = {
         'data': [
-            {'x': forecast_without_last_days['ds'], 'y': forecast_without_last_days['yhat'], 'type': 'line', 'name': 'Forecast', 'line': {'color': 'blue'}},
+            {'x': forecast_without_last_days['ds'], 'y': forecast_without_last_days['yhat'], 'type': 'line', 'name': 'Povijesni podaci', 'line': {'color': 'steelblue'}},
             {'x': last_days['ds'], 'y': last_days['yhat'], 'type': 'line', 'name': f'Predviđanje za idućih {num_days}', 'line': {'color': 'orange'}}
         ],
         'layout': {
-            'title': f'Predviđanje za idućih {num_days} dana za {selected_product}',
+            'title': f'Predviđanje prodaje za idućih {num_days} dana za {selected_product}',
             'xaxis': {'title': 'Datum'},
             'yaxis': {'title': 'Prodana količina'},
             'showlegend': True
