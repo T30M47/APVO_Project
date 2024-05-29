@@ -1,7 +1,8 @@
 <h1>Upute za pokretanje</h1>
 <hr>
 Prvo preuzmite zip i otvorite mapu ***** u željenom uređivaču koda.<br>
-Također, repozitorij možete i klonirati putem terminala željenog uređivača koda s naredbom: <br>
+Također, repozitorij možete i klonirati putem terminala željenog uređivača koda s naredbom:
+<br>
 
 ```
 git clone https://github.com/T30M47/APVO_Project.git
