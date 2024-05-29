@@ -6,7 +6,7 @@ docker exec spark spark-submit --master local[*] --driver-class-path /app/postgr
     docker-compose down
 
     REDOSLIJED NAKON PODIZANJA SVIH KONTEJNERA:
-    docker exec spark spark-submit --master local[*] --driver-class-path /app/postgresql-42.7.1.jar /app/warehouse.py
+    docker exec spark spark-submit --master local[*] --driver-class-path /app/postgresql-42.7.1.jar /app/skladiste//warehouse.py
     docker exec dash_web_app python Dash/app.py
    
     ZA NAPRAVIT PREDIKCIJE:
