@@ -19,7 +19,7 @@ docker-compose up --build
 ```
 Nakon što se Vam se pokrenuli kontejneri, u novom terminalu (pazite da ste i dalje u folderu gdje je Docker file), pokrenite ETL procese s naredbom:
 ```
-docker exec spark spark-submit --master local[*] --driver-class-path /app/postgresql-42.7.1.jar /app/warehouse.py
+docker exec spark spark-submit --master local[*] --driver-class-path /app/postgresql-42.7.1.jar /app/skladiste/warehouse.py
 ```
 Zadnji korak je pokrenuti web aplikaciju s naredbom:
 ```
