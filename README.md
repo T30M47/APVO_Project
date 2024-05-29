@@ -13,13 +13,13 @@ Zatim se pozicionirajte u mapu gdje se nalazi Dockerfile ("projekt"):
 cd ./projekt
 ```
 
-Zatim u terminalu pokrenite naredbu i pričekajte da se podignu kontejneri (traje nešto duže zbog popunjavanja baza podataka):
+Zatim u terminalu pokrenite naredbu i pričekajte da se podignu kontejneri (traje nešto duže zbog popunjavanja baza podataka i treba se čekati da kontejner python_app vrati "Created Transactions!" pa "DONE"):
 ```
 docker-compose up --build
 ```
 Nakon što se Vam se pokrenuli kontejneri, u novom terminalu (pazite da ste i dalje u folderu gdje je Docker file), pokrenite ETL procese s naredbom:
 ```
-docker exec spark spark-submit --master local[*] --driver-class-path /app/postgresql-42.7.1.jar /app/warehouse.py
+docker exec spark spark-submit --master local[*] --driver-class-path /app/postgresql-42.7.1.jar /app/skladiste/warehouse.py
 ```
 Zadnji korak je pokrenuti web aplikaciju s naredbom:
 ```
