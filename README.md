@@ -8,6 +8,11 @@ Također, repozitorij možete i klonirati putem terminala željenog uređivača 
 git clone https://github.com/T30M47/APVO_Project.git
 ```
 
+Za potrebe popunjavanja transakcijskih baza podataka preuzmite csv datoteku s linka i stavite je u mapu projekt/csv:
+```
+https://drive.google.com/drive/u/0/folders/1jK_mq9ir1KkRthUPjgj6qQSbcu6xJyC8
+```
+
 Zatim se pozicionirajte u mapu gdje se nalazi Dockerfile ("projekt"):
 ```
 cd ./projekt
