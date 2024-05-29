@@ -10,7 +10,7 @@ git clone https://github.com/T30M47/APVO_Project.git
 
 Zatim se pozicionirajte u mapu gdje se nalazi Dockerfile ("projekt"):
 ```
-cd ./******
+cd ./projekt
 ```
 
 Zatim u terminalu pokrenite naredbu i pričekajte da se podignu kontejneri (traje nešto duže zbog popunjavanja baza podataka):
