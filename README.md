@@ -1,6 +1,6 @@
 <h1>Upute za pokretanje</h1>
 <hr>
-Prvo preuzmite zip i otvorite mapu ***** u željenom uređivaču koda.<br>
+Prvo preuzmite zip i otvorite mapu "projekt" u željenom uređivaču koda.<br>
 Također, repozitorij možete i klonirati putem terminala željenog uređivača koda s naredbom:
 <br>
 
@@ -8,9 +8,9 @@ Također, repozitorij možete i klonirati putem terminala željenog uređivača 
 git clone https://github.com/T30M47/APVO_Project.git
 ```
 
-Zatim se pozicionirajte u mapu gdje se nalazi Dockerfile (*****):
+Zatim se pozicionirajte u mapu gdje se nalazi Dockerfile ("projekt"):
 ```
-cd ./******
+cd ./projekt
 ```
 
 Zatim u terminalu pokrenite naredbu i pričekajte da se podignu kontejneri (traje nešto duže zbog popunjavanja baza podataka):
