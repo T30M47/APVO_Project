@@ -1,6 +1,6 @@
 <h1>Upute za pokretanje</h1>
 <hr>
-Prvo preuzmite zip i otvorite mapu ***** u željenom uređivaču koda.
+Prvo preuzmite zip i otvorite mapu ***** u željenom uređivaču koda.<br>
 Također, repozitorij možete i klonirati putem terminala željenog uređivača koda s naredbom:
 
 ```
