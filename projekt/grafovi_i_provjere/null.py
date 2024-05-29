@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Read the CSV file into a pandas DataFrame
-df = pd.read_csv('csv/retail_2021_final.csv')
+df = pd.read_csv('projekt/csv/retail_2021_final.csv')
 
 # Check for null/nan values in the 'InvoiceNo' column
 """null_invoice_numbers = df[df['InvoiceNo'].isnull()]
@@ -25,7 +25,7 @@ else:
     print("No rows with null/nan values in 'InvoiceNo' column.")
 
 # Read the CSV file into a pandas DataFrame
-df = pd.read_csv('csv/retail_2022_final.csv')
+df = pd.read_csv('projekt/csv/retail_2022_final.csv')
 
 # Check for null/nan values in the 'InvoiceNo' column
 null_invoice_numbers = df[df['InvoiceNo'].isnull()]
@@ -36,7 +36,7 @@ count_null_invoice_numbers = null_invoice_numbers.shape[0]
 print("Number of rows with null/nan values in 'InvoiceNo' column:", count_null_invoice_numbers)
 
 # Read the CSV file into a pandas DataFrame
-df = pd.read_csv('csv/retail_2023_final.csv')
+df = pd.read_csv('projekt/csv/retail_2023_final.csv')
 
 # Check for null/nan values in the 'InvoiceNo' column
 null_invoice_numbers = df[df['InvoiceNo'].isnull()]

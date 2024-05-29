@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the data into a DataFrame
-data = pd.read_csv('csv/druga_godina.csv')
+data = pd.read_csv('projekt/csv/druga_godina.csv')
 #data = pd.read_csv('generator/csv/retail_cleaned.csv')
 
 # Convert 'InvoiceDate' column to datetime format

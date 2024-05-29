@@ -1,7 +1,7 @@
 import pandas as pd
 
 # List of CSV files to merge
-csv_files = ['csv/retail_2020.csv', 'csv/retail_2021_years.csv', 'csv/retail_2022_years.csv', 'csv/retail_2023_years.csv']
+csv_files = ['projekt/csv/retail_2020.csv', 'projekt/csv/retail_2021_years.csv', 'projekt/csv/retail_2022_years.csv', 'projekt/csv/retail_2023_years.csv']
 
 # Initialize an empty list to store DataFrames
 dfs = []
@@ -17,4 +17,4 @@ for file in csv_files:
 merged_df = pd.concat(dfs, ignore_index=True)
 
 # Save the merged DataFrame to a new CSV file
-merged_df.to_csv('csv/retail_all.csv', index=False)
+merged_df.to_csv('projekt/csv/retail_all.csv', index=False)

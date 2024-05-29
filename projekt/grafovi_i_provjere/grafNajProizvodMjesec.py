@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Load the data into a DataFrame
-data = pd.read_csv('csv/retail_cleaned.csv')
+data = pd.read_csv('projekt/csv/retail_cleaned.csv')
 
 # Convert the 'InvoiceDate' column to datetime format
 data['InvoiceDate'] = pd.to_datetime(data['InvoiceDate'])

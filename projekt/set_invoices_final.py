@@ -100,10 +100,10 @@ used_invoice_numbers = set()
 
 # Load the CSV files and process them
 for year in range(2021, 2024):
-    filename = f'csv/retail_{year}.csv'
-    filename_old = f'csv/retail_2020.csv'
-    output_filename = f'csv/retail_{year}_final.csv'
-    output_filename_old = f'csv/retail_{year - 1}_final.csv'
+    filename = f'projekt/csv/retail_{year}.csv'
+    filename_old = f'projekt/csv/retail_2020.csv'
+    output_filename = f'projekt/csv/retail_{year}_final.csv'
+    output_filename_old = f'projekt/csv/retail_{year - 1}_final.csv'
 
     df = pd.read_csv(filename)
 

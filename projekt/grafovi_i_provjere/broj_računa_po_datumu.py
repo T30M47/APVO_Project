@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Učitajte CSV datoteku za određenu godinu
-df = pd.read_csv('csv/retail_2022_final.csv')
+df = pd.read_csv('projekt/csv/retail_2022_final.csv')
 
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)

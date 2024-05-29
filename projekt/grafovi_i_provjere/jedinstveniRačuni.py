@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Assuming your data is in a CSV file named 'invoices.csv'
-data = pd.read_csv('generator/csv/retail_cleaned.csv')
+data = pd.read_csv('projekt/csv/retail_cleaned.csv')
 
 # Count the number of unique invoice numbers
 num_unique_invoices = data['InvoiceNo'].nunique()
@@ -10,7 +10,7 @@ print("Number of unique invoice numbers in the data:", num_unique_invoices)
 import pandas as pd
 
 # Assuming your data is in a CSV file named 'invoices.csv'
-data = pd.read_csv('csv/retail_2021_final.csv')
+data = pd.read_csv('projekt/csv/retail_2021_final.csv')
 
 # Count the number of unique invoice numbers
 num_unique_invoices = data['InvoiceNo'].nunique()
@@ -18,7 +18,7 @@ num_unique_invoices = data['InvoiceNo'].nunique()
 print("Number of unique invoice numbers in the data:", num_unique_invoices)
 
 # Assuming your data is in a CSV file named 'invoices.csv'
-data = pd.read_csv('csv/retail_2022_final.csv')
+data = pd.read_csv('projekt/csv/retail_2022_final.csv')
 
 # Count the number of unique invoice numbers
 num_unique_invoices = data['InvoiceNo'].nunique()
@@ -26,7 +26,7 @@ num_unique_invoices = data['InvoiceNo'].nunique()
 print("Number of unique invoice numbers in the data:", num_unique_invoices)
 
 # Assuming your data is in a CSV file named 'invoices.csv'
-data = pd.read_csv('csv/retail_2023_final.csv')
+data = pd.read_csv('projekt/csv/retail_2023_final.csv')
 
 # Count the number of unique invoice numbers
 num_unique_invoices = data['InvoiceNo'].nunique()
@@ -36,7 +36,7 @@ print("Number of unique invoice numbers in the data:", num_unique_invoices)
 
 
 # Load the CSV file with invoices
-df_invoices = pd.read_csv('csv/retail_2023_final.csv')
+df_invoices = pd.read_csv('projekt/csv/retail_2023_final.csv')
 
 # Group by InvoiceNo and list the dates for each invoice number
 invoices_dates = df_invoices.groupby('InvoiceNo')['InvoiceDate'].apply(set)
