@@ -6,10 +6,10 @@ from multiprocessing import Pool, cpu_count
 # Function to generate a single transaction
 def generate_transaction(i, product_counts, weights, top_products, df, sampled_dates):
     sampled_product = None
-    if np.random.rand() < 0.35:  # 30% chance of sampling from top products
-        sampled_product = np.random.choice(top_products.index, p=top_products.values)
-    else:
-        sampled_product = np.random.choice(product_counts.index, p=weights)
+    # if np.random.rand() < 0.35:  # 30% chance of sampling from top products
+    #     sampled_product = np.random.choice(top_products.index, p=top_products.values)
+    # else:
+    sampled_product = np.random.choice(product_counts.index, p=weights)
     
     new_description = df[df['StockCode'] == sampled_product]['Description'].iloc[0]
     new_quantity = np.random.randint(1, 10, size=1)[0]
@@ -37,13 +37,14 @@ if __name__ == '__main__':
     product_counts = df['StockCode'].value_counts()
 
     # Step 4: Modify the distribution
-    exponent = 2
+    exponent = 1.7
+    linear_factor = 0.1  # Adjust this factor as needed
     epsilon = 1e-6
-    weights = (product_counts.values + epsilon) ** (-exponent)
+    weights = (product_counts.values + epsilon) ** (exponent) + linear_factor * product_counts.values
     weights /= weights.sum()
 
     # Step 5: Generate new transactions
-    num_transactions = 450000
+    num_transactions = 500000
 
     # Sample dates from original data
     original_dates = pd.to_datetime(df['InvoiceDate'])
@@ -83,4 +84,4 @@ if __name__ == '__main__':
     new_df.sort_values(by='InvoiceDate', inplace=True)
 
     # Step 8: Write the generated transactions to a new CSV file
-    new_df.to_csv('projekt/csv/cetvrta_godina_55.csv', index=False)
+    new_df.to_csv('projekt/csv/treća_godina_65.csv', index=False)

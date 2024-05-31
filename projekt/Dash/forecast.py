@@ -84,16 +84,16 @@ for product, df in top_product_dataframes.items():
         filename = f'forecast_{product.replace(" ", "_").lower()}_{period}_days.csv'
         forecast_df.to_csv(filename, index=False)
 # Izračunajte predviđanja za 7 i 30 dana
-# forecast_transactions_30_days = make_prophet_forecast(transactions_df, 30)
-# forecast_transactions_183_days = make_prophet_forecast(transactions_df, 183)
-# forecast_transactions_365_days = make_prophet_forecast(transactions_df, 365)
+forecast_transactions_30_days = make_prophet_forecast(transactions_df, 30)
+forecast_transactions_183_days = make_prophet_forecast(transactions_df, 183)
+forecast_transactions_365_days = make_prophet_forecast(transactions_df, 365)
 # # forecast_daily_transactions_7_days = make_prophet_forecast(daily_transactions_df, 7)
 # # forecast_daily_transactions_30_days = make_prophet_forecast(daily_transactions_df, 30)
 
 # # Pohranite predviđanja u CSV datoteke
-# forecast_transactions_30_days.to_csv('forecast_transactions_30_days.csv', index=False)
-# forecast_transactions_183_days.to_csv('forecast_transactions_183_days.csv', index=False)
-# forecast_transactions_365_days.to_csv('forecast_transactions_365_days.csv', index=False)
+forecast_transactions_30_days.to_csv('forecast_transactions_30_days.csv', index=False)
+forecast_transactions_183_days.to_csv('forecast_transactions_183_days.csv', index=False)
+forecast_transactions_365_days.to_csv('forecast_transactions_365_days.csv', index=False)
 
 # forecast_daily_transactions_7_days.to_csv('forecast_product_sales_7_days.csv', index=False)
 # forecast_daily_transactions_30_days.to_csv('forecast_product_sales_30_days.csv', index=False)
