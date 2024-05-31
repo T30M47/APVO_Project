@@ -8,6 +8,11 @@ Također, repozitorij možete i klonirati putem terminala željenog uređivača 
 git clone https://github.com/T30M47/APVO_Project.git
 ```
 
+Za potrebe popunjavanja transakcijskih baza podataka preuzmite csv datoteku s linka i stavite je u mapu projekt/csv:
+```
+https://drive.google.com/drive/u/0/folders/1jK_mq9ir1KkRthUPjgj6qQSbcu6xJyC8
+```
+
 Zatim se pozicionirajte u mapu gdje se nalazi Dockerfile ("projekt"):
 ```
 cd ./projekt
@@ -17,7 +22,7 @@ Zatim u terminalu pokrenite naredbu i pričekajte da se podignu kontejneri (traj
 ```
 docker-compose up --build
 ```
-Nakon što se Vam se pokrenuli kontejneri, u novom terminalu (pazite da ste i dalje u folderu gdje je Docker file), pokrenite ETL procese s naredbom:
+Nakon što su Vam se pokrenuli kontejneri, u novom terminalu (pazite da ste i dalje u folderu gdje je Docker file), pokrenite ETL procese s naredbom:
 ```
 docker exec spark spark-submit --master local[*] --driver-class-path /app/postgresql-42.7.1.jar /app/skladiste/warehouse.py
 ```
